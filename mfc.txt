@@ -1,0 +1,107 @@
+뷰    this
+액자 AfxGetMainWnd()
+앱    AftGetApp()
+SetWindowTextW()
+Get
+
+복합문서지원
+OLE doc 지원
+
+CMFC1MouseDemoApp theApp;
+
+when -> 뷰 LBDOWN 눌렸을때
+what ->
+
+RedrawWindow(0,0,TRUE);
+
+GDI
+GetDC() , ReleaseDC() = DirectX
+
+OnPaint에 있는 그림은 Redraw가된다
+OnPaint외에 있는 그림은 OS의 도움을 받지못해 Redraw하지못한다
+
+기존 dc 값들은 유지
+
+	CPen myPen(PS_SOLID, 10, RGB(200, 200, 200));
+	CPen* pOldPen = dc.SelectObject(&myPen);
+
+
+
+              CBitmap bmpBHJ;
+	bmpBHJ.LoadBitmap(IDB_BHJ);
+	CBrush myBr(&bmpBHJ); 
+
+	CRect rectView;
+	GetClientRect(&rectView);
+	
+	CBrush* oldBr = dc.SelectObject(&myBr);
+	dc.Rectangle(&rectView);
+
+ctrl 사용법
+1.WYSWYG 으로 배치한다 WhatYouSeeWhatYouGet
+2.속성 (공통속성 : ID , Prompt ,동작 , 유형)
+3.DDX를 연결 DoDataeXchange 값,리모컨(둘다 한번씩만) /DDV DoDataValidation
+4.Notify 처리기(handler)추가 ex) EN_xxx , BN_xxx, LBN_xxx 
+5.MSDN 확인
+
+-UpdateData(0/1);
+-GetDlgItem(ID); 대화상자 그자체는 가져올수 없다
+-GetCurSel() 현재 인덱스 값 반환
+-strTemp.Format
+-OnInitDialog() 리모컨변수에 대해 가장 빨리 호출되는 함수
+탭오더 처음시작시
+default button 클릭없이 엔터로
+
+0.Cwnd
+1.Cstatic
+2.Cedit
+3.Cbutton
+4.Cradio
+-반드시 연속된 탭 순서를 가져야한다
+-연속된 탭 순서의 첫번째 라디오버튼은 WS_GROUP을 가져야한다
+-기타 - Group = True
+
+-ListCtrl
+insertItem(i,str);
+SetItemTest(i,j,str);
+m_ctrlFriend.SetExtendedStyle(dwStyle | LVS_EX_FULLROWSELECT); 전체로우선택
+
+Formview 4개의 기둥을 받고 wyswyg을 지원
+-OninitDialog -> OninitialUpdate
+나머지는 동일
+
+사용자 IDD 만들기
+1. 리소스에 DLG 추가
+2. 클래스추가 (h,cpp추가됨)
+3. 할짓추가
+4. DLG 원하는시점에 띄우기 + #include "해당DLG.h"
+5. DoMoDal() , DoMoDalless
+
+modal = 호출한 대화상자를 먼저 처리를해야한다
+              CLoginDlg a;
+	int nResult = a.DoModal();
+	if (nResult == IDOK)
+	{
+		AfxMessageBox(a.m_strTemp);
+		AfxMessageBox(_T("Search Start!"));
+	}
+	else
+	{
+		AfxMessageBox(_T("Cancel!"));
+	}
+modaless = 호출한 대화상자를 먼저 처리하지않아도된다
+	static CLoginDlg a;
+	if (a.GetSafeHwnd() == NULL)
+	{
+		a.Create(IDD_LOGIN);
+	}
+	a.ShowWindow(SW_SHOW);
+
+Serialize = 저장,로딩
+저장순서대로 로딩
+경로설정
+아카이브 만들기
+둘이 결합
+카운트를 먼저 줘
+ar << 저장
+ar >> 로딩
